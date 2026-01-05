@@ -4,25 +4,21 @@ import pandas as pd
 
 
 
-train = pd.read_csv('./data/train.csv')
-test  = pd.read_csv('./data/test.csv')
+train = pd.read_csv('./data/raw/train.csv')
+test  = pd.read_csv('./data/raw/test.csv')
 sub   = pd.read_csv('./data/sample_submission.csv')
 
 
 
-
-print(train.shape)
-print(test.shape)
-print(sub.shape)
-print(train.dtypes)
-
-print('===================================================')
+# print(train.shape)
+# print(test.shape)
+# print(sub.shape)
+# print(train.dtypes)
 
 
-print(train.columns)
-print(test.columns)
-print(sub.columns)
-
+# print(train.columns)
+# print(test.columns)
+# print(sub.columns)
 target_col = "Calories_Burned"
 
 def summary_feature_info(src_df):
@@ -41,8 +37,13 @@ def summary_feature_info(src_df):
 summary_df = summary_feature_info(train)
 
 
+# print(summary_df)
 
 
-print(summary_df)
 
 
+
+# df = train.copy()
+
+
+# print(df[["Height(Feet)", "Height(Remainder_Inches)"]].describe())
