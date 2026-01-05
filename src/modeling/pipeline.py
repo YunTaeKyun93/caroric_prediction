@@ -4,7 +4,7 @@ from sklearn.compose import ColumnTransformer
 def make_preporcessor():
   num_features= [
     "Exercise_Duration",
-    "Body_Temperature(C),"
+    "Body_Temperature_C",
     "BPM",
     "Weight_kg",
     "BMI",
@@ -15,6 +15,7 @@ def make_preporcessor():
     "Gender",
     "Weight_Status"
   ]
+  
   numeric_transformer = StandardScaler()
   categorical_transformer = OneHotEncoder(
     handle_unknown="ignore",

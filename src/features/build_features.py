@@ -26,6 +26,7 @@ def convert_temp(df:pd.DataFrame):
   df["Body_Temperature_C"] = (
   (  df["Body_Temperature(F)"]-32) * 5 / 9
   )
+
   return df 
 
 def drop_raw_units (df: pd.DataFrame)->pd.DataFrame:
@@ -34,8 +35,9 @@ def drop_raw_units (df: pd.DataFrame)->pd.DataFrame:
   drop_cols =[
     "Height(Feet)",
     "Height(Remainder_Inches)",
-    "Weight(lb)"
-    "Body_Temperature(F)"
+    "Weight(lb)",
+    "Body_Temperature(F)",
+    "Height_in"
   ]
 
   return df.drop(columns=drop_cols)
@@ -43,8 +45,9 @@ def drop_raw_units (df: pd.DataFrame)->pd.DataFrame:
 def build_features (df):
   df = add_height_features(df)
   df = add_bmi(df)
-  df = drop_raw_units(df)
   df = convert_temp(df)
+  df = drop_raw_units(df)
+
   return df
 
 # anchor feature
