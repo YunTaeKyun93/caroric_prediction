@@ -1,0 +1,125 @@
+### train.csv : 학습 데이터
+
+# - id: 데이터 고유 id
+
+# - age: 나이
+
+# - sex: 성별 (여자 = 0, 남자 = 1)
+
+# - **cp: 가슴 통증(chest pain) 종류**
+
+# - **0 : asymptomatic 무증상**
+
+# - **1 : atypical angina 일반적이지 않은 협심증**
+
+# - **2 : non-anginal pain 협심증이 아닌 통증**
+
+# - **3 : typical angina 일반적인 협심증**
+
+# - trestbps: (resting blood pressure) 휴식 중 혈압(mmHg)
+
+# - chol: (serum cholestoral) 혈중 콜레스테롤 (mg/dl)
+
+# - fbs: (fasting blood sugar) 공복 중 혈당 (120 mg/dl 이하일 시 = 0, 초과일 시 = 1)
+
+# - **restecg: (resting electrocardiographic) 휴식 중 심전도 결과**
+
+# - **0: showing probable or definite left ventricular hypertrophy by Estes' criteria**
+
+# - **1: 정상**
+
+# - **2: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)**
+
+# - thalach: (maximum heart rate achieved) 최대 심박수
+
+# - exang: (exercise induced angina) 활동으로 인한 협심증 여부 (없음 = 0, 있음 = 1)
+
+# - oldpeak: (ST depression induced by exercise relative to rest) 휴식 대비 운동으로 인한 ST 하강
+
+# - **slope: (the slope of the peak exercise ST segment) 활동 ST 분절 피크의 기울기**
+
+# - **0: downsloping 하강**
+
+# - **1: flat 평탄**
+
+# - **2: upsloping 상승**
+
+# - ca: number of major vessels colored by flouroscopy 형광 투시로 확인된 주요 혈관 수 (0~3 개)
+
+# - **Null 값은 숫자 4로 인코딩됨**
+
+# - thal: thalassemia 지중해빈혈 여부
+
+# - **0 = Null**
+
+# - 1 = normal 정상
+
+# - 2 = fixed defect 고정 결함
+
+# - 3 = reversable defect 가역 결함
+
+# - target: 심장 질환 진단 여부
+
+# - 0: < 50% diameter narrowing
+
+# - 1: > 50% diameter narrowing
+
+## 해석
+
+- ID: 7500개 데이터갯수와 같고, 식별자인데 학습의미없으므로 삭제 예정임다
+
+- target : 연속형 수치(float) 회귀문제의 예측대상 (y로 분리)
+
+\*\*\* 수치형(연속형)
+
+### 스케일링 대상(아마 StandScaler)
+
+- Exercise_Duration : 운동 지속시간 시간은 아닌거 같고 분으로 추정 / 칼로리 소모에 직접적인 영향 줄듯 V
+
+- Body_Temperature(F)화씨 : 이게 운동중 올라가는 체온 이면 운동 강도 지표가 될지도 X
+
+- BPM : 심박수니까 이것도 운동 강도 / 칼로리 소모에 직접적인 영향줄듯 X
+
+- Weight : Weight lb가 파운드라고 하네요 이거 아마 운동그때 같은 운동해도 뚱뚱하면 더 소모가 크다고 들엇던거 같음X
+
+- Age : 나이 기초대사량 및 운동 효율에 영향줄듯 X
+
+\*\*\* 수치형이지만 파생 가능한 변수 (수정이 필요한것들)
+
+- Height(Feet)
+- Height(Remainder_Inches)
+  키 정보가 분리되어 있음
+  Feet + Inches → 하나의 Height 변수로 통합 가능 보기편한게 cm가 좋지않을까
+  (선택) BMI 계산을 위한 재료 변수
+  => Height(M) X
+
+\*\*\* 범주형 변수
+
+- 숫자 크기 의미 XX , onehotencoding할듯
+
+- Weight_Status : X(없다면 다시 계산해서 넣어주기)
+  체형 카테고리 정보
+  노말이랑 오버 뿐임
+  체중과는 좀 다른 보조로 쓰면 돌듯
+
+- gender : 성별 근육량이랑 대사량 율?? 차이 범주형변수로 쓸듯 (X)
+
+### 현재 결측치는 운동시간 외에는 없으면 안되고,
+
+### 이상치는 한번 추후 확인 해봐야함
+
+- Body_Temperature
+- BPM
+- Age
+- Height
+
+### 그다음 변형 해야할 것들
+
+- Body_Temperature => 화씨 에서 섭씨로
+- Weight -> 파운드를 kg
+  \*\*\* 키를 우선 통합후 삭제하고 m단위로 새로운 컬럼 생성
+
+비율 a/b
+대비/균형 a-b
+기준선 초과 : 연속값을 0과1로 예를들어 age과 50이상이 1 아니면 0
+중요정보압축: 여러 피쳐 같은정보를 전달할때 압축 -> height / cm &kg =>bmi 잇긴한데 극단적
