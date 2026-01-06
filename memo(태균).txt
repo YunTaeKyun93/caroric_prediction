@@ -83,11 +83,32 @@ before (7500, 11)
 after (7371, 11)
 
 
+Weight_kg
+Exercise_Duration * bpm 상수 소비량 
+
+
 
 """
 분기점에 섰는데,
 rmse = 1.1  svm, svr, ensemble 통짜로 돌려보는겁니다 
 optuna kfold strtified 튜닝을 하고, 
+
+
+
+
+weight_mapping = {'Normal Weight': 0, 'Overweight': 1, 'Obese': 2}
+train['Weight_Status'] = train['Weight_Status'].map(weight_mapping)
+test['Weight_Status'] = test['Weight_Status'].map(weight_mapping)
+
+
+
+proto linear regression 1.1 파생변수 
+gradiant_boosting 
+RMSE =>0.622
+
+
+-> optuna gb kfold 0.52
+해설 피피티 
 
 지금 암만봐도 운동시간이 * 다른상수들 을 하면 kcal 
 그냥 현재상황은 문제점이 값을 내려고 하는 taget 이 너무쉬워짐
@@ -95,3 +116,26 @@ optuna kfold strtified 튜닝을 하고,
 2. 운동시간<== 이녀석을 없애고 drop 문제 풀어보는거임 문제가 어려워지니까 좀 재밋는 뭔가 나옴 <== 실험적으로 해볼만함 재밋을듯 솔직히 
 딱 하루정도 해볼만할듯 
 """
+
+Exercise_Duration <== 이녀석이 정답에 가까움
+
+
+
+
+
+
+Best RMSE: 1.5841266305373538
+Best params
+n_estimators: 1517
+max_depth: 3
+learning_rate: 0.049247820455736474
+subsample: 0.7054530162494841
+min_samples_leaf: 10
+
+
+[(
+  'num', StandardScaler(), 
+['Exercise_Duration', 'BPM', 'Age', 'Height_m', 'Weight_kg', 'Body_Temp_C', 'Gender_Num', 'BMI', 'Duration_x_BPM', 'Duration_x_Weight', 'Duration_x_Age', 'Duration_x_Gender', 'Total_Factor', 'Intensity']
+),
+ ('cat', OneHotEncoder(handle_unknown='ignore'), 
+['Weight_Status'])]
