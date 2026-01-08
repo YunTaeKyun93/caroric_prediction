@@ -98,7 +98,7 @@ def main():
     
 
     for model_name in models_to_tune:
-        print(f"\n>> Tunning {model_name.upper()}!!@!@!@")
+        print(f"\n>> Tunning {model_name.upper()}!!@!!@!@!@!@")
         
         n_trials = 20 if model_name == "cat" else 30
         

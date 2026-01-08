@@ -14,7 +14,7 @@ def load_params(model_name):
         try:
             with open(PARAMS_PATH, 'r') as f:
                 data = json.load(f)
-                print(data)
+                # print(data)
             return data.get(model_name, {})
         except Exception as e:
             print(f" Failed  load params  {model_name}: {e}")
@@ -61,9 +61,26 @@ def get_catboost_model(params=None):
             "learning_rate": 0.05,
             "loss_function": "RMSE",
             "verbose": 0,
-            "random_seed": 42
+            "random_seed": 42,
         }
         default_params.update(tuned_params)
         params = default_params
         
     return CatBoostRegressor(**params)
+
+def get_catboost_with_features_model(cat_features):
+    tuned_params = load_params("cat")
+    default_params = {
+        "iterations": 2000,
+        "learning_rate": 0.05,
+        "loss_function": "RMSE",
+        "verbose": 0,
+        "random_seed": 42,
+        "cat_features": cat_features
+    }
+    default_params.update(tuned_params)
+
+    def _model():
+        return CatBoostRegressor(**default_params)
+
+    return _model

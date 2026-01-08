@@ -88,6 +88,8 @@ if __name__ == "__main__":
     # 2.0 => 단독 
     # 앙상블 1.6
     # 트리플 1.0
+
+    # 로컬 0.8 - > public 0.6 
     # 스태킹  0.6 => optuna
 
     # ROund , PolynomialFeatures, All_data
